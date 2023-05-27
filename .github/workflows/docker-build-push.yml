@@ -1,0 +1,32 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  IMAGE_NAME: infrastructure-project
+  DOCKERHUB_REPO: infrastructure-project
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t ${{ env.IMAGE_NAME }} .
+
+      - name: Log in to Docker Hub
+        run: docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }}
+
+      - name: Tag Docker image
+        run: docker tag ${{ env.IMAGE_NAME }} ${{ env.DOCKERHUB_REPO }}/${{ env.IMAGE_NAME }}
+
+      - name: Push Docker image
+        run: docker push ${{ env.DOCKERHUB_REPO }}/${{ env.IMAGE_NAME }}
