@@ -9,7 +9,7 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   IMAGE_NAME: infrastructure-project
-  DOCKERHUB_REPO: infrastructure-project
+  DOCKERHUB_REPO: savstanis
 
 jobs:
   build-and-push:
